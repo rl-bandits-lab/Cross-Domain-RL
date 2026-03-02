@@ -68,7 +68,7 @@ def main():
     data, mean, std = compute_mean_std(data_orign)
     np.savez(log_dir + "src_info.npz", mean=mean.cpu().numpy(), std=std.cpu().numpy())
 
-    train_sample_count = int(data.shape[0]*0.9)
+    train_sample_count = int(data.shape[0]*0.95)
     test_sample_count = data.shape[0] - train_sample_count
 
     train_data = data[:train_sample_count]

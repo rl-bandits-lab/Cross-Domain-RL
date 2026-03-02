@@ -47,22 +47,22 @@ class decoder_network(nn.Module):
         super(decoder_network, self).__init__()
         self.state_emb = nn.Sequential(
             nn.Linear(target_state_dim, hidden_size//2),
-            nn.ELU(),
+            nn.LeakyReLU(0.2),
             nn.Linear(hidden_size//2, hidden_size//2),
-            nn.ELU(),
+            nn.LeakyReLU(0.2),
         )
         self.action_emb = nn.Sequential(
             nn.Linear(target_action_dim, hidden_size//2),
-            nn.ELU(),
+            nn.LeakyReLU(0.2),
             nn.Linear(hidden_size//2, hidden_size//2),
-            nn.ELU(),
+            nn.LeakyReLU(0.2),
         )
 
         self.out_layer = nn.Sequential(
             nn.Linear(hidden_size, hidden_size),
-            nn.ELU(),
+            nn.LeakyReLU(0.2),
             nn.Linear(hidden_size, hidden_size),
-            nn.ELU(),
+            nn.LeakyReLU(0.2),
             nn.Linear(hidden_size, source_state_dim + source_action_dim),
         )
         self.useTanh = useTanh
@@ -153,6 +153,9 @@ if __name__ == "__main__":
     target_env.seed(seed=args.seed)
     eval_env.seed(seed=args.seed)
     set_random_seed(seed = args.seed)
+    
+    args.flow_folder += f"{str(args.seed)}/"
+    args.src_folder += f"{str(args.seed)}/"
 
     new_logger = configure(target_log_folder, ["stdout", "csv", "tensorboard"])
     eval_callback = EvalCallback(eval_env, best_model_save_path=target_log_folder, log_path=target_log_folder, eval_freq=2000, deterministic=True, render=False, n_eval_episodes = 5)

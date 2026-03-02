@@ -936,7 +936,10 @@ class SAC2(OffPolicyAlgorithm):
         self.critic_target = self.policy.critic_target
 
     def evaluate_alpha(self) -> None:
-        index = np.arange(self.replay_buffer.pos)
+        if self.replay_buffer.pos < int(1e5):
+            index = np.arange(self.replay_buffer.pos)
+        else:
+            index = np.random.choice(self.replay_buffer.pos, size=int(1e5), replace=False)
 
         data = self.replay_buffer._get_samples(index, env=self._vec_normalize_env)
         src_trans_losses, tar_trans_losses = [], []

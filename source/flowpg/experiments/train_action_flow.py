@@ -66,7 +66,7 @@ def main():
 
     # Load dataset
     data = th.from_numpy(action).double().to(args.device)
-    train_sample_count = int(data.shape[0]*0.9)
+    train_sample_count = int(data.shape[0]*0.95)
     test_sample_count = data.shape[0] - train_sample_count
 
     train_data = data[:train_sample_count]

@@ -12,6 +12,8 @@ torch version: 2.2.1
 ```
 
 ## Training
+If you want to reproduce our results, you can directly skip to Step 3 and use the pre-trained model provided in the models/ directory. Otherwise, if you would like to run the full pipeline, including source model training, flow model training, and target domain training, please follow the procedure described in Steps 1–3.
+
 Step 1: Train the Source Model and Collect Source-Domain Data.
 Run the following commands to train the source model and collect the corresponding source-domain data:
 

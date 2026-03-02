@@ -47,7 +47,7 @@ set_random_seed(seed = args.seed)
 
 state_list = []
 action_list = []
-sample_num = 100000
+sample_num = 60000
 
 for i in range(sample_num):
     obs = vec_env.reset()

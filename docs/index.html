@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,59 +6,121 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       max-width: 900px;
       margin: auto;
-      padding: 40px;
-      line-height: 1.6;
+      padding: 40px 20px;
+      line-height: 1.7;
+      color: #222;
     }
 
-    h1 { text-align: center; }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-    .buttons a {
-      margin: 5px;
-      padding: 10px 15px;
-      background: #0366d6;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
+    h2 {
+      margin-top: 40px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .authors, .affiliations, .equal {
+      text-align: center;
+      margin: 6px 0;
+    }
+
+    .affiliations {
+      font-size: 0.95em;
+      color: #444;
+    }
+
+    .equal {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 10px;
     }
 
     .buttons {
       text-align: center;
-      margin: 20px;
+      margin: 25px 0;
+    }
+
+    .buttons a {
+      display: inline-block;
+      margin: 6px;
+      padding: 10px 18px;
+      background: #0366d6;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .buttons a:hover {
+      background: #024ea2;
+    }
+
+    pre {
+      background: #f6f8fa;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.9em;
+    }
+
+    .coming-soon {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-top: 20px;
     }
   </style>
 </head>
 
 <body>
 
-<h1>Cross-Domain Reinforcement Learning</h1>
+<h1>
+Cross-Domain Policy Optimization via Bellman Consistency and Hybrid Critics
+</h1>
 
-<p align="center">
-Author Name<br>
-Institution
-</p>
-
-<div class="buttons">
-  <a href="https://github.com/YOUR_USERNAME/Cross-Domain-RL">Code</a>
-  <a href="#">Paper (Coming Soon)</a>
+<div class="authors">
+  Ming-Hong Chen<sup>1*</sup> &nbsp;
+  Kuan-Chen Pan<sup>1*</sup> &nbsp;
+  You-De Huang<sup>1*</sup> &nbsp;
+  Xi Liu<sup>2</sup> &nbsp;
+  Ping-Chun Hsieh<sup>1</sup>
 </div>
 
-<h2>Abstract</h2>
-<p>
-This project studies cross-domain reinforcement learning...
+<div class="affiliations">
+  <sup>1</sup> National Yang Ming Chiao Tung University, Hsinchu, Taiwan<br>
+  <sup>2</sup> Applied Machine Learning, Meta AI, Menlo Park, CA, USA
+</div>
+
+<div class="equal">
+  <sup>*</sup> These authors contributed equally to this work.
+</div>
+
+<div class="buttons">
+  <a href="https://github.com/rl-bandits-lab/Cross-Domain-RL">Code</a>
+  <a href="https://openreview.net/pdf?id=kTXRFtWHnM">Paper</a>
+</div>
+
+<p class="coming-soon">
+The project page is coming soon.
 </p>
 
-<h2>Overview</h2>
-<img src="figures/overview.png" width="100%">
-
 <h2>Citation</h2>
+
 <pre>
-@article{yourpaper2026,
-  title={Cross-Domain RL},
-  author={Your Name},
-  year={2026}
+@inproceedings{
+chen2026cross,
+title={Cross-domain policy optimization via bellman consistency and hybrid critics},
+author={Ming-Hong, Chen and Kuan-Chen, Pan and You-De, Huang and Xi, Liu and Ping-Chun, Hsieh},
+booktitle={The Fourteenth International Conference on Learning Representations},
+year={2026},
+url={https://openreview.net/forum?id=kTXRFtWHnM}
 }
 </pre>
 
