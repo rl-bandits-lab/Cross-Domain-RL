@@ -34,7 +34,7 @@ def main():
     parser.add_argument("--epochs", type=int, nargs='?', default=5000)
     parser.add_argument("--eval_freq", type=int, nargs='?', default=1)
     parser.add_argument("--lr", type=float, nargs='?', default=1e-5)
-    parser.add_argument("--batch_size", type=int, nargs='?', default=5000)
+    parser.add_argument("--batch_size", type=int, nargs='?', default=512)
     parser.add_argument("--hidden_size", type=int, nargs='?', default=256)
     parser.add_argument("--transform_count", type=int, nargs='?', default=6)
     parser.add_argument("--mollifier_sigma", type=float, nargs='?', default=0.0001)

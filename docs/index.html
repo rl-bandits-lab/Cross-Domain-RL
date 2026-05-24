@@ -1,84 +1,399 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Cross-Domain RL</title>
 
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      max-width: 900px;
-      margin: auto;
-      padding: 40px 20px;
-      line-height: 1.7;
-      color: #222;
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+    line-height: 1.7;
+    color: #222;
+  }
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+h2 {
+    margin-top: 40px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+  }
+
+.authors, .affiliations, .equal {
+    text-align: center;
+    margin: 6px 0;
+  }
+
+.framework-img {
+  display: block;
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.affiliations {
+    font-size: 0.95em;
+    color: #444;
+  }
+
+.equal {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+  }
+
+.buttons {
+    text-align: center;
+    margin: 25px 0;
+  }
+
+.buttons a {
+    display: inline-block;
+    margin: 6px;
+    padding: 10px 18px;
+    background: #0366d6;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+.buttons a:hover {
+    background: #024ea2;
+  }
+
+pre {
+    background: #f6f8fa;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9em;
+  }
+
+.domain-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+.domain-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+.domain-card img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+.domain-card p {
+    margin: 0;
+    text-align: justify;
+  }
+
+.cdrl-section {
+  margin-top: 40px;
+}
+
+.cdrl-intro {
+    text-align: justify;
+    font-size: 1.05em;
+  }
+
+.transfer-arrow {
+    text-align: center;
+  }
+
+.transfer-arrow {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* 共用箭頭線 */
+  .domain-transfer-layout {
+    display: grid;
+    grid-template-columns: 300px 260px 300px;
+    column-gap: 40px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+.domain-card {
+    text-align: center;
+  }
+
+.domain-card img {
+    width: 270px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+.domain-card h3 {
+    margin: 18px 0 10px;
+    font-size: 25px;
+  }
+
+.domain-card p {
+    text-align: center;
+    margin: 6px 0;
+    font-size: 25px;
+  }
+
+.transfer-arrow {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+/* 箭頭線 */
+  .arrow-line-right,
+  .arrow-line-left {
+    position: relative;
+    width: 260px;
+    height: 4px;
+    background: #555;
+  }
+
+/* 向右 */
+  .arrow-line-right::after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: -6px;
+    border-left: 18px solid #555;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+  }
+
+/* 向左 */
+  .arrow-line-left::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: -6px;
+    border-right: 18px solid #555;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+  }
+
+/* 中間藍色方塊 */
+  .arrow-label {
+    width: 260px;
+    background: #aebfe0;
+    border-radius: 22px;
+    padding: 22px 18px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.35;
+    font-weight: 600;
+    box-sizing: border-box;
+  }
+
+.mapping-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+.dcc-bc-comparison {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: stretch;
+    margin-top: 2rem;
+  }
+
+.consistency-box {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1.5px solid;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+    background: #fff;
+  }
+
+.bc-box {
+    border-color: #4269b2;
+    background: linear-gradient(180deg, #f3f7ff 0%, #e5eefc 100%);
+  }
+
+.box-header {
+    padding: 0.75rem 1rem 0.6rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.52);
+  }
+
+.box-title {
+    font-size: clamp(1.25rem, 2vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+.dcc-title {
+    text-align: center;
+    color: #2a1d08;
+  }
+
+.box-content {
+    padding: 0.85rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+.claim-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: clamp(0.85rem, 1.25vw, 1.15rem);
+    line-height: 1.25;
+  }
+
+.claim-item {
+    display: flex;
+    gap: 0.45rem;
+    align-items: flex-start;
+  }
+
+.claim-dot {
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+.formula-card {
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 0.7rem 0.75rem;
+  }
+
+.formula-label {
+    margin-bottom: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+
+.formula {
+    overflow-x: auto;
+    overflow-y: hidden;
+    font-size: clamp(0.72rem, 1.05vw, 1rem);
+  }
+
+.small-formula {
+    font-size: clamp(0.66rem, 0.95vw, 0.92rem);
+  }
+
+.formula mjx-container {
+    margin: 0 !important;
+    max-width: 100%;
+  }
+
+.formula-separator {
+    height: 1px;
+    margin: 0.5rem 0;
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+/* For narrow screens */
+  @media (max-width: 900px) {
+    .dcc-bc-comparison {
+      grid-template-columns: 1fr;
+    }
+  
+    .comparison-arrow {
+      transform: rotate(90deg);
+      padding: 0.2rem 0;
+    }
+  
+    .minigridexm-img {
+      max-width: 100%;
+    }
+  }
+
+.theory-section {
+    margin-top: 40px;
+  }
+
+.theorem-box {
+    border: 1px solid #d8dee4;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    margin-top: 22px;
+    margin-bottom: 28px;
+  }
+
+.theorem-body {
+    padding: 18px 22px 22px 22px;
+  }
+
+.theorem-body p {
+    margin-top: 0;
+    text-align: justify;
+  }
+
+.theorem-equation {
+    overflow-x: auto;
+    background: #fbfbfb;
+    border: 1px solid #eaeef2;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+  }
+
+.theorem-equation mjx-container {
+    font-size: 92% !important;
+  }
+
+@media (max-width: 768px) {.theorem-body {
+      padding: 16px;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
+.theorem-equation mjx-container {
+      font-size: 82% !important;
     }
-
-    h2 {
-      margin-top: 40px;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
-    }
-
-    .authors, .affiliations, .equal {
-      text-align: center;
-      margin: 6px 0;
-    }
-
-    .affiliations {
-      font-size: 0.95em;
-      color: #444;
-    }
-
-    .equal {
-      font-size: 0.9em;
-      color: #666;
-      margin-top: 10px;
-    }
-
-    .buttons {
-      text-align: center;
-      margin: 25px 0;
-    }
-
-    .buttons a {
-      display: inline-block;
-      margin: 6px;
-      padding: 10px 18px;
-      background: #0366d6;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-
-    .buttons a:hover {
-      background: #024ea2;
-    }
-
-    pre {
-      background: #f6f8fa;
-      padding: 15px;
-      border-radius: 8px;
-      overflow-x: auto;
-      font-size: 0.9em;
-    }
-
-    .coming-soon {
-      text-align: center;
-      font-style: italic;
-      color: #666;
-      margin-top: 20px;
-    }
-  </style>
+}
+</style>
 </head>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
 
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <body>
 
 <h1>
@@ -107,12 +422,547 @@ Cross-Domain Policy Optimization via Bellman Consistency and Hybrid Critics
   <a href="https://openreview.net/pdf?id=kTXRFtWHnM">Paper</a>
 </div>
 
-<p class="coming-soon">
-The project page is coming soon.
+<h2>Abstract</h2>
+
+<p>
+Cross-domain reinforcement learning (CDRL) aims to improve the data efficiency
+of reinforcement learning by leveraging data samples collected from a source
+domain to facilitate learning in a similar target domain. Despite its potential,
+cross-domain transfer in RL faces two fundamental and intertwined challenges.
+First, the source and target domains may have distinct state spaces or action spaces,
+which makes direct transfer infeasible and requires more sophisticated inter-domain
+mappings. Second, the transferability of a source-domain model in RL is not easily
+identifiable a priori, making CDRL prone to negative transfer effects.
 </p>
 
-<h2>Citation</h2>
+<p>
+In this paper, we jointly tackle these two challenges through the lens of
+cross-domain Bellman consistency and hybrid critics. Specifically, we first
+introduce the notion of cross-domain Bellman consistency as a way to measure
+the transferability of a source-domain model. We then propose <strong>QAvatar</strong>,
+which combines Q-functions from both the source and target domains using an
+adaptive, hyperparameter-free weighting function.
+</p>
 
+<p>
+Through this design, we characterize the convergence behavior of QAvatar and
+show that it achieves reliable transfer by effectively leveraging a source-domain
+Q-function for knowledge transfer to the target domain. Experiments demonstrate
+that QAvatar achieves favorable transferability across various reinforcement
+learning benchmark tasks, including locomotion and robot arm manipulation.
+</p>
+
+<h2>Cross-Domain Reinforcement Learning</h2>
+
+<div class="cdrl-section">
+  <p class="cdrl-intro">
+    Cross-domain reinforcement learning (CDRL) aims to improve the sample
+    efficiency of reinforcement learning by transferring useful knowledge from a
+    <strong>source domain</strong> to a related <strong>target domain</strong>.
+    The source domain is often easier or cheaper to collect data from, while the
+    target domain is the actual environment where efficient learning is desired.
+  </p>
+
+<div class="domain-transfer-layout">
+
+  <div class="domain-card">
+    <h3>Source Domain</h3>
+    <p>(Data-rich/Low-cost)</p>
+    <img src="static/images/QAvatar_src.jpg" alt="Source Domain">
+  </div>
+
+  <div class="transfer-arrow">
+    <div class="arrow-line-right"></div>
+
+    <div class="arrow-label">
+      Different in state/action space,<br>
+      reward function,<br>
+      and transition probability.
+    </div>
+
+    <div class="arrow-label">
+      Learning a state/action<br>
+      mapping function $\phi$, $\psi$ to<br>
+      utilize source-domain knowledge.
+    </div>
+
+    <div class="arrow-line-left"></div>
+  </div>
+
+  <div class="domain-card">
+    <h3>Target Domain</h3>
+    <p>(Data-scarce/High-cost)</p>
+    <img src="static/images/QAvatar_tar.jpg" alt="Target Domain">
+  </div>
+
+</div>
+
+<h2>QAvatar Framework</h2>
+
+<div class="framework-section">
+  <p class="framework-intro">
+    QAvatar is designed to enable reliable knowledge transfer from a source
+    domain to a target domain. It combines source-domain and target-domain
+    Q-functions through an adaptive, hyperparameter-free weighting mechanism,
+    allowing the agent to exploit useful source knowledge while reducing the
+    risk of negative transfer.
+  </p>
+
+    <img 
+    class="framework-img"
+    src="static/images/framework.png"
+    width="30%"
+    >
+  
+
+<h2>Inter-Domain Mapping</h2>
+<p>
+For inter-domain mapping, most prior works enforce transition consistency between the source and target domains. However, this form of dynamic consistency can fail to identify the optimal mapping. Please refer to Appendix D.1 for a detailed MiniGrid example illustrating this idea.
+<p>
+<p>
+To address this issue, QAvatar learns the inter-domain mappings via cross-domain Bellman consistency. By requiring the mapped source-domain Q-function to satisfy a Bellman-like equation on target-domain transitions and rewards, the learned correspondence becomes task-aware and can distinguish mappings that dynamics consistency cannot.
+<p>
+  <div class="mapping-section">
+  
+    <section class="dcc-bc-comparison">
+  
+      <!-- Dynamics Consistency -->
+      <div class="consistency-box bc-box">
+        <div class="box-header">
+          <div>
+            <div class="box-title dcc-title">Dynamics Consistency</div>
+          </div>
+        </div>
+  
+        <div class="box-content">
+          <div class="claim-list">
+            <div class="claim-item">
+              <span class="claim-dot">•</span>
+              <span>Matches transition dynamics.</span>
+            </div>
+            <div class="claim-item">
+              <span class="claim-dot">•</span>
+              <span>Can fail to find optimal mappings.</span>
+            </div>
+          </div>
+  
+          <div class="formula-card">
+            <div class="formula-label">Objective</div>
+  
+            <div class="formula">
+              \[
+              \mathcal{L}_{\mathrm{Dyn}}(\phi,\psi;\ T_{src}, D_{tar})
+              :=\mathbb{E}_{(s,a,s')\sim \mathcal{D}_{\mathrm{tar}}}
+              \left[\ 
+              \delta_{\mathrm{dyn}}
+              \ \right],
+              \]
+            </div>
+            <div class="formula-separator"></div>
+  
+            <div class="formula">
+              \[
+              \delta_{\mathrm{dyn}} :=
+              \left\|
+              \phi(s') -
+              T_{\mathrm{src}}\bigl(\phi(s),\psi(s,a)\bigr)
+              \right\|_1.
+              \]
+            </div>  
+          </div>
+        </div>
+      </div>
+  
+      <div class="consistency-box bc-box">
+        <div class="box-header">
+          <div>
+            <div class="box-title dcc-title">Bellman Consistency (Ours)</div>
+          </div>
+        </div>
+  
+        <div class="box-content">
+          <div class="claim-list">
+            <div class="claim-item">
+              <span class="claim-dot">•</span>
+              <span>Matches Bellman optimality.</span>
+            </div>
+            <div class="claim-item">
+              <span class="claim-dot">•</span>
+              <span>Discovers reward-aligned mappings.</span>
+            </div>
+          </div>
+  
+          <div class="formula-card">
+            <div class="formula-label">Objective</div>
+  
+            <div class="formula">
+              \[
+              \mathcal{L}_{\mathrm{bell}}(\phi,\psi;\ Q_{src}, \pi_{tar}, D_{tar})
+              :=
+            \mathbb{E}_{(s,a,r_{\mathrm{tar}},s')\sim \mathcal{D}_{\mathrm{tar}}}
+              \left[\ 
+              \delta_{\mathrm{bell}}
+              \ \right]
+              \]
+            </div>
+  
+            <div class="formula-separator"></div>
+  
+            <div class="formula small-formula">
+              \[
+              \delta_{\mathrm{bell}}
+              :=
+              \left| r_{\mathrm{tar}}
+              +
+              \gamma
+              \mathbb{E}_{a'\sim \pi_{\mathrm{tar}}}
+              \left[
+Q_{\mathrm{src}}\bigl(\phi(s'),\psi(a')\bigr)
+              \right]
+              -
+Q_{\mathrm{src}}\bigl(\phi(s),\psi(a)\bigr) \right|^2.
+              \]
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </section>
+  </div>
+<h2>Hybrid Critics</h2>
+
+<p>
+We adopt an NPG-style policy update with hybrid critics:
+</p>
+<div>
+  $
+  \pi^{(t+1)}(a \mid s)
+  \propto
+  \pi^{(t)}(a \mid s)
+  \cdot
+  \exp
+  \left(
+  \eta
+  \left(
+  (1-\alpha(t))Q_{\mathrm{tar}}^{(t)}(s,a)
+  +
+  \alpha(t)Q_{\mathrm{src}}
+  \left(
+  \phi^{(t)}(s), \psi^{(t)}(a)
+  \right)
+  \right)
+  \right).
+  $
+</div>
+<p>
+Specifically, the target critic $Q^{(t)}_{\text{tar}}$ is trained by minimizing the TD loss, whereas the source critic $Q_{src}$ is pre-trained in the source domain and remains fixed throughout target-domain learning:
+</p>
+  
+<h2>Adaptive Weight Mechanism</h2>
+<div class="theory-section">
+
+  <div class="theorem-box">
+    <div class="theorem-body">
+
+      <p>
+        <strong>
+          Proposition (Average Sub-Optimality Gap): Under QAvatar, assuming an exploratory initial distribution, the average sub-optimality over \(T\) iterations is bounded as follows:
+        </strong>
+      </p>
+    <div class="theorem-equation">
+      $$
+      \begin{aligned}
+      &\frac{1}{T}\sum_{t=1}^T
+      \mathbb{E}_{s \sim \mu_{\mathrm{tar}}}
+      \Big[V^{\pi^{*}}(s) - V^{\pi^{(t)}}(s)\Big]
+      \\[2mm]
+      &\leq
+      \underbrace{
+      \frac{\left[\log |\mathcal{A}_{\mathrm{tar}}| + 1\right]}
+      {\sqrt{T}(1-\gamma)}
+      }_{(a)}
+      +
+      \underbrace{
+      \frac{C_0}{T}\sum_{t=1}^T
+      \mathbb{E}_{(s,a) \sim d^{\pi^{(t)}}}
+      \left[
+      \left|
+      (1-\alpha(t))Q^{(t)}_{\mathrm{tar}}(s,a)
+      +\alpha(t)Q_{\mathrm{src}}(\phi^{(t)}(s),\psi^{(t)}(a))
+      - Q^{\pi^{(t)}}(s,a)
+      \right|
+      \right]
+      }_{(b)}
+      \\[2mm]
+      &\leq
+      \underbrace{
+      \frac{\left[\log |\mathcal{A}_{\mathrm{tar}}| + 1\right]}
+      {\sqrt{T}(1-\gamma)}
+      }_{(a)}
+      +
+      \underbrace{
+      \frac{C_1}{T}\sum_{t=1}^T
+      \Big(
+      \alpha(t)
+      \lVert
+      \epsilon_{\mathrm{cd}}
+      (Q_{\mathrm{src}}, \phi^{(t)}, \psi^{(t)})
+      \rVert_{d^{\pi^{(t)}}}
+      +
+      (1-\alpha(t))
+      \lVert
+      \epsilon_{\mathrm{td}}^{(t)}
+      \rVert_{d^{\pi^{(t)}}}
+      \Big)
+      }_{(c)}
+      \end{aligned}
+      ,where
+        \begin{aligned}
+        &\|\epsilon_{\mathrm{td}}^{(t)}\|_{d^{\pi^{(t)}}}
+        :=
+        \mathbb{E}_{(s,a)\sim d^{\pi^{(t)}}}
+        \Big[
+        \Big|
+        Q^{(t)}_{\mathrm{tar}}(s,a)
+        - r_{\mathrm{tar}}(s,a)
+        -
+        \gamma
+        \mathbb{E}_{\substack{
+        s'\sim P_{\mathrm{tar}}(\cdot\rvert s,a)\\
+        a'\sim \pi^{(t)}(\cdot\rvert s')
+        }}
+        [
+        Q^{(t)}_{\mathrm{tar}}(s',a')
+        ]
+        \Big|
+        \Big],
+        \\[4pt]
+        &\|\epsilon_{\mathrm{cd}}(Q_{\mathrm{src}},\phi,\psi)\|_{d^{\pi^{(t)}}}
+        :=
+        \mathbb{E}_{(s,a)\sim d^{\pi^{(t)}}}
+        \Big[
+        \Big|
+        Q_{\mathrm{src}}(\phi^{(t)}(s),\psi^{(t)}(a))
+        - r_{\mathrm{tar}}(s,a)
+        -
+        \gamma
+        \mathbb{E}_{\substack{
+        s'\sim P_{\mathrm{tar}}(\cdot\rvert s,a)\\
+        a'\sim \pi^{(t)}(\cdot\rvert s')
+        }}
+        [
+        Q_{\mathrm{src}}(\phi^{(t)}(s'),\psi^{(t)}(a'))
+        ]
+        \Big|
+        \Big].
+        \end{aligned}
+        $$
+      </div>
+    </div>
+  </div>
+Based on the average sub-optimality gap proposition, at each iteration $t$, term (c) can be minimized by choosing $\alpha(t)$ as an indicator function; that is, setting it to 1 when 
+$\lVert\epsilon_{\text{cd}}(Q_{\text{src}}, \phi^{(t)}, \psi^{(t)})\rVert_{d^{\pi^{(t)}}} < \lVert\epsilon_{\text{td}}^{(t)}\rVert_{d^{\pi^{(t)}}}$
+, and to 0 otherwise. In practice, estimating these two error terms can be noisy, so using an indicator function may lead to large fluctuations in $\alpha(t)$ and unstable training. To address this issue, we propose a smoother variant: \[\alpha(t) = \lVert\epsilon_{\text{td}}^{(t)}\rVert_{d^{\pi^{(t)}}}/(\lVert\epsilon_{\text{cd}}(Q_{\text{src}}, \phi^{(t)}, \psi^{(t)})\rVert_{d^{\pi^{(t)}}} + \lVert\epsilon_{\text{td}}^{(t)}\rVert_{d^{\pi^{(t)}}}).\]
+Notably, this design is hyperparameter-free and incurs minimal deployment overhead.
+</div>
+
+  <h2>Experimental Results</h2>
+
+<h3 style="
+  background-color: #eaf4ff;
+  border-left: 5px solid #4a90d9;
+  border-radius: 6px;
+  padding: 8px 14px;
+">
+  Evaluation Environments
+</h3>
+
+<p>
+  Source and target domains are evaluated across locomotion, robot manipulation,
+  and navigation tasks.
+</p>
+
+<table>
+  <tr>
+    <th>Environment</th>
+    <th>HalfCheetah</th>
+    <th>Ant</th>
+    <th>Door Opening</th>
+    <th>Table Wiping</th>
+    <th>Navigation</th>
+  </tr>
+
+  <tr>
+    <td>
+      Source<br>
+      Domain
+    </td>
+    <td>
+      <img src="gifs/halfcheetah_src.gif" alt="HalfCheetah source domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/ant_src.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/door_src.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/wipe_src.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/navigation_src.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Target<br>
+      Domain
+    </td>
+    <td>
+      <img src="gifs/halfcheetah_tar.gif" alt="HalfCheetah source domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/ant_tar.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/door_tar.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/wipe_tar.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+    <td>
+      <img src="gifs/navigation_tar.gif" alt="HalfCheetah target domain" width="150">
+    </td>
+  </tr>
+
+</table>
+
+<h3 style="
+  background-color: #eaf4ff;
+  border-left: 5px solid #4a90d9;
+  border-radius: 6px;
+  padding: 8px 14px;
+">
+  Evaluation Results
+</h3>
+
+
+<h4 style="text-align: center;">Learning Curve</h4>
+
+<div style="text-align: center;">
+
+  <div style="display: inline-block; width: 19%; vertical-align: top;">
+    <img src="static/images/iclr_HalfCheetah.png" alt="HalfCheetah learning curve" width="100%">
+    <p><strong>(a) HalfCheetah</strong></p>
+  </div>
+
+  <div style="display: inline-block; width: 19%; vertical-align: top;">
+    <img src="static/images/iclr_Ant.png" alt="Ant learning curve" width="100%">
+    <p><strong>(b) Ant</strong></p>
+  </div>
+
+  <div style="display: inline-block; width: 19%; vertical-align: top;">
+    <img src="static/images/iclr_Door.png" alt="Door Opening learning curve" width="100%">
+    <p><strong>(c) Door Opening</strong></p>
+  </div>
+
+  <div style="display: inline-block; width: 19%; vertical-align: top;">
+    <img src="static/images/iclr_Wipe.png" alt="Wipe learning curve" width="100%">
+    <p><strong>(d) Wipe</strong></p>
+  </div>
+
+  <div style="display: inline-block; width: 19%; vertical-align: top;">
+    <img src="static/images/iclr_navigation.png" alt="Dog learning curve" width="100%">
+    <p><strong>(e) Navigation</strong></p>
+  </div>
+  <br>
+  <img src="static/images/iclr_legend.png" alt="Learning curve legend" width="90%">
+
+<div style="text-align: center;">
+
+  <div style="display: inline-block; width: 48%; vertical-align: top;">
+    <h4>Time to Threshold</h4>
+    <img src="static/images/TTT.png" alt="Time to threshold" width="100%">
+  </div>
+
+  <div style="display: inline-block; width: 48%; vertical-align: top;">
+    <h4>Aggregated IQM</h4>
+    <img src="static/images/IQM.png" alt="Aggregated IQM" width="50%">
+  </div>
+</div>
+</div>
+
+<h3 style="
+  background-color: #eaf4ff;
+  border-left: 5px solid #4a90d9;
+  border-radius: 6px;
+  padding: 8px 14px;
+">
+  Ablation Study: Does $\alpha(t)$ Reflect Source Model Transferability?
+</h3>
+<div style="
+  margin: 28px auto 18px auto;
+  padding: 10px 18px;
+  max-width: 520px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+">
+  <h4 style="margin: 0; font-size: 1.05em;">
+    Strong Positive/Negative Transfer
+  </h4>
+</div>
+We consider a task where the source domain is standard 'Ant-v3' and the target changes the goal to move backward, with all else unchanged. Here, $Q_{\text{src}}$ and $Q_{\text{tar}}$ are adversarial due to opposite goals. We evaluate QAvatar in two scenarios: (a) <strong>Learning state/action mapping</strong>: strong transferability exists, as Ant is symmetric along the front-back axis, allowing a perfect mapping. (b) <strong>Fixing mapping as identity</strong>: a strong negative transfer case, since $Q_{\text{src}}$ provides adversarial reward signals. The results are shown in below, $Q$Avatar captures both positive transfer (high $\alpha(t)$) and negative transfer (low $\alpha(t)$), demonstrating that $\alpha(t)$ reflects transferability.
+
+<div style="display: flex; gap: 16px; align-items: center; margin-top: 24px; justify-content: center;">
+  <img src="static/images/ablation_PosNeg_retrun.png" 
+       style="width: 25%;">
+
+  <img src="static/images/ablation_PosNeg_alpha.png" 
+       style="width: 25%;">
+</div>
+
+<div style="text-align: center; margin-top: 8px;">
+  <img src="static/images/ablation_PosNeg_legend.png" 
+       style="width: 40%;">
+</div>
+
+<div style="
+  margin: 28px auto 18px auto;
+  padding: 10px 18px;
+  max-width: 520px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+">
+  <h4 style="margin: 0; font-size: 1.05em;">
+    Source Model of Varying Quality
+  </h4>
+</div>
+
+We evaluate a scenario with a source model of varying quality in the Cheetah environment. Specifically, we use a low-quality source model with a total return of 1000, compared with approximately 7000 for the expert. The learning process and $\alpha(t)$ of QAvatar are shown below. When the source model is of low quality, $\alpha(t)$ decreases to a small value by the end of training, thereby mitigating the effect of negative transfer.
+
+<div style="display: flex; gap: 16px; align-items: center; margin-top: 24px; justify-content: center;">
+  <img src="static/images/ablation_halfcheetah_return.png" 
+       alt="Learning process on HalfCheetah" 
+       style="width: 25%;">
+
+  <img src="static/images/ablation_halfcheetah_alpha.png" 
+       alt="Alpha values on HalfCheetah" 
+       style="width: 25%;">
+</div>
+
+<div style="text-align: center; margin-top: 8px;">
+  <img src="static/images/ablation_halfcheetah_legend.png" 
+       alt="Legend" 
+       style="width: 40%;">
+</div>
+
+<h2>Citation</h2>
 <pre>
 @inproceedings{
 chen2026cross,
