@@ -439,16 +439,16 @@ identifiable a priori, making CDRL prone to negative transfer effects.
 In this paper, we jointly tackle these two challenges through the lens of
 cross-domain Bellman consistency and hybrid critics. Specifically, we first
 introduce the notion of cross-domain Bellman consistency as a way to measure
-the transferability of a source-domain model. We then propose <strong>QAvatar</strong>,
+the transferability of a source-domain model. We then propose <strong>$Q$Avatar</strong>,
 which combines Q-functions from both the source and target domains using an
 adaptive, hyperparameter-free weighting function.
 </p>
 
 <p>
-Through this design, we characterize the convergence behavior of QAvatar and
+Through this design, we characterize the convergence behavior of $Q$Avatar and
 show that it achieves reliable transfer by effectively leveraging a source-domain
 Q-function for knowledge transfer to the target domain. Experiments demonstrate
-that QAvatar achieves favorable transferability across various reinforcement
+that $Q$Avatar achieves favorable transferability across various reinforcement
 learning benchmark tasks, including locomotion and robot arm manipulation.
 </p>
 
@@ -468,7 +468,7 @@ learning benchmark tasks, including locomotion and robot arm manipulation.
   <div class="domain-card">
     <h3>Source Domain</h3>
     <p>(Data-rich/Low-cost)</p>
-    <img src="static/images/QAvatar_src.jpg" alt="Source Domain">
+    <img src="static/images/$Q$Avatar_src.jpg" alt="Source Domain">
   </div>
 
   <div class="transfer-arrow">
@@ -492,16 +492,16 @@ learning benchmark tasks, including locomotion and robot arm manipulation.
   <div class="domain-card">
     <h3>Target Domain</h3>
     <p>(Data-scarce/High-cost)</p>
-    <img src="static/images/QAvatar_tar.jpg" alt="Target Domain">
+    <img src="static/images/$Q$Avatar_tar.jpg" alt="Target Domain">
   </div>
 
 </div>
 
-<h2>QAvatar Framework</h2>
+<h2>$Q$Avatar Framework</h2>
 
 <div class="framework-section">
   <p class="framework-intro">
-    QAvatar is designed to enable reliable knowledge transfer from a source
+    $Q$Avatar is designed to enable reliable knowledge transfer from a source
     domain to a target domain. It combines source-domain and target-domain
     Q-functions through an adaptive, hyperparameter-free weighting mechanism,
     allowing the agent to exploit useful source knowledge while reducing the
@@ -520,7 +520,7 @@ learning benchmark tasks, including locomotion and robot arm manipulation.
 For inter-domain mapping, most prior works enforce transition consistency between the source and target domains. However, this form of dynamic consistency can fail to identify the optimal mapping. Please refer to Appendix D.1 for a detailed MiniGrid example illustrating this idea.
 <p>
 <p>
-To address this issue, QAvatar learns the inter-domain mappings via cross-domain Bellman consistency. By requiring the mapped source-domain Q-function to satisfy a Bellman-like equation on target-domain transitions and rewards, the learned correspondence becomes task-aware and can distinguish mappings that dynamics consistency cannot.
+To address this issue, $Q$Avatar learns the inter-domain mappings via cross-domain Bellman consistency. By requiring the mapped source-domain Q-function to satisfy a Bellman-like equation on target-domain transitions and rewards, the learned correspondence becomes task-aware and can distinguish mappings that dynamics consistency cannot.
 <p>
   <div class="mapping-section">
   
@@ -666,7 +666,7 @@ Specifically, the target critic $Q^{(t)}_{\text{tar}}$ is trained by minimizing 
 
       <p>
         <strong>
-          Proposition (Average Sub-Optimality Gap): Under QAvatar, assuming an exploratory initial distribution, the average sub-optimality over \(T\) iterations is bounded as follows:
+          Proposition (Average Sub-Optimality Gap): Under $Q$Avatar, assuming an exploratory initial distribution, the average sub-optimality over \(T\) iterations is bounded as follows:
         </strong>
       </p>
     <div class="theorem-equation">
@@ -868,7 +868,7 @@ Notably, this design is hyperparameter-free and incurs minimal deployment overhe
 
   <div style="display: inline-block; width: 19%; vertical-align: top;">
     <img src="static/images/iclr_Wipe.png" alt="Wipe learning curve" width="100%">
-    <p><strong>(d) Wipe</strong></p>
+    <p><strong>(d) Table Wiping</strong></p>
   </div>
 
   <div style="display: inline-block; width: 19%; vertical-align: top;">
@@ -914,7 +914,7 @@ Notably, this design is hyperparameter-free and incurs minimal deployment overhe
     Strong Positive/Negative Transfer
   </h4>
 </div>
-We consider a task where the source domain is standard 'Ant-v3' and the target changes the goal to move backward, with all else unchanged. Here, $Q_{\text{src}}$ and $Q_{\text{tar}}$ are adversarial due to opposite goals. We evaluate QAvatar in two scenarios: (a) <strong>Learning state/action mapping</strong>: strong transferability exists, as Ant is symmetric along the front-back axis, allowing a perfect mapping. (b) <strong>Fixing mapping as identity</strong>: a strong negative transfer case, since $Q_{\text{src}}$ provides adversarial reward signals. The results are shown in below, $Q$Avatar captures both positive transfer (high $\alpha(t)$) and negative transfer (low $\alpha(t)$), demonstrating that $\alpha(t)$ reflects transferability.
+We consider a task where the source domain is standard 'Ant-v3' and the target changes the goal to move backward, with all else unchanged. Here, $Q_{\text{src}}$ and $Q_{\text{tar}}$ are adversarial due to opposite goals. We evaluate $Q$Avatar in two scenarios: (a) <strong>Learning state/action mapping</strong>: strong transferability exists, as Ant is symmetric along the front-back axis, allowing a perfect mapping. (b) <strong>Fixing mapping as identity</strong>: a strong negative transfer case, since $Q_{\text{src}}$ provides adversarial reward signals. The results are shown in below, $Q$Avatar captures both positive transfer (high $\alpha(t)$) and negative transfer (low $\alpha(t)$), demonstrating that $\alpha(t)$ reflects transferability.
 
 <div style="display: flex; gap: 16px; align-items: center; margin-top: 24px; justify-content: center;">
   <img src="static/images/ablation_PosNeg_retrun.png" 
@@ -944,7 +944,7 @@ We consider a task where the source domain is standard 'Ant-v3' and the target c
   </h4>
 </div>
 
-We evaluate a scenario with a source model of varying quality in the Cheetah environment. Specifically, we use a low-quality source model with a total return of 1000, compared with approximately 7000 for the expert. The learning process and $\alpha(t)$ of QAvatar are shown below. When the source model is of low quality, $\alpha(t)$ decreases to a small value by the end of training, thereby mitigating the effect of negative transfer.
+We evaluate a scenario with a source model of varying quality in the Cheetah environment. Specifically, we use a low-quality source model with a total return of 1000, compared with approximately 7000 for the expert. The learning process and $\alpha(t)$ of $Q$Avatar are shown below. When the source model is of low quality, $\alpha(t)$ decreases to a small value by the end of training, thereby mitigating the effect of negative transfer.
 
 <div style="display: flex; gap: 16px; align-items: center; margin-top: 24px; justify-content: center;">
   <img src="static/images/ablation_halfcheetah_return.png" 
